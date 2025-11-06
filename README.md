@@ -63,8 +63,7 @@ jac serve main.jac
 
 Then test it with:
 
-curl -X POST http://localhost:8000/run \
--H "Content-Type: application/json" \
+
 -d '{"repo_url": "https://github.com/example/repo"}'
 
 
