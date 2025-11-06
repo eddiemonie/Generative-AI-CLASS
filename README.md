@@ -1,139 +1,98 @@
-# 🧠 Codebase Genius
-Autonomous multi-agent documentation generator built with **JacLang**.
+Codebase Genius
 
----
+An autonomous multi-agent documentation system — built by Eddie using JacLang.
 
-## 🚀 Overview
-Codebase Genius is an AI-powered system that analyzes any public GitHub repository and produces high-quality Markdown documentation. It leverages **JacLang** agents (walkers) to coordinate repository mapping, code analysis, and documentation synthesis.
+Codebase Genius is my personal AI project that automatically analyzes software repositories and generates clean, well-structured Markdown documentation — completely powered by JacLang agents.
 
----
+Overview
 
-## 🧱 Project Structure
-```
+Codebase Genius is designed to make documentation effortless.
+It intelligently clones a GitHub repository, analyzes the source code, maps internal relationships, and produces structured documentation — all without manual writing.
+
+This project demonstrates how JacLang’s agentic architecture can be used to build autonomous systems that reason over complex codebases.
+
+Project Structure
 codebase_genius/
 │
 ├── agents/
-│   ├── supervisor.jac        # Supervisor agent (workflow orchestrator)
-│   ├── repo_mapper.jac       # Clones repo and maps structure
-│   ├── code_analyzer.jac     # Parses code and builds context graph
-│   └── doc_genie.jac         # Generates markdown documentation
+│   ├── supervisor.jac        # Central orchestrator that runs all tasks
+│   ├── repo_mapper.jac       # Clones the repository and maps file structure
+│   ├── code_analyzer.jac     # Builds contextual code graphs (CCG)
+│   └── doc_genie.jac         # Generates final Markdown documentation
 │
 ├── utils/
-│   └── parser_utils.py       # Tree-sitter/AST parsing helpers
+│   └── parser_utils.py       # Python helpers for parsing and tree-sitter integration
 │
-├── outputs/                  # Generated markdown files
+├── outputs/                  # Auto-generated documentation output
 │
-├── main.jac                  # Entry point for Jac backend
-├── requirements.txt          # Python dependencies
-└── README.md                 # Setup and usage instructions
-```
-
----
-
-## ⚙️ Setup Instructions
-
-### 1️⃣ Clone or create the project
-```bash
+├── main.jac                  # Entry point of the Jac backend
+├── requirements.txt          # Project dependencies
+└── README.md                 # You are here 
+Setup Instructions
+Create the project
 mkdir codebase_genius && cd codebase_genius
-```
 
-### 2️⃣ Create project folders
-```bash
+Set up folders
 mkdir -p agents utils outputs
-```
 
-### 3️⃣ Create virtual environment and activate
-```bash
+Initialize a Python virtual environment
 python3 -m venv venv
 source venv/bin/activate
-```
 
-### 4️⃣ Install dependencies
-```bash
+Install dependencies
 pip install jaclang gitpython tree_sitter openai markdownify
-```
 
-### 5️⃣ Create a `.env` file for API keys
-```bash
+Add API credentials
+
+Create a .env file and add your API key:
+
 echo "OPENAI_API_KEY=your_api_key_here" > .env
-# or use GEMINI_API_KEY if you’re using Google Gemini
-```
 
-### 6️⃣ Verify installation
-```bash
+
+(You can also use GEMINI_API_KEY if using Google Gemini.)
+
+Verify your JacLang installation
 jac --version
-```
 
----
+Running Codebase Genius
 
-## 🧰 Running the Backend
+Start the Jac backend:
 
-To launch the backend server:
-```bash
 jac serve main.jac
-```
 
-### Test with curl:
-```bash
-curl -X POST http://localhost:8000/run -H "Content-Type: application/json" -d '{"repo_url": "https://github.com/example/repo"}'
-```
 
-This will start the **Supervisor walker** that triggers Repo Mapper → Code Analyzer → DocGenie. The output will be generated in `outputs/`.
+Then test it with:
 
----
+curl -X POST http://localhost:8000/run \
+-H "Content-Type: application/json" \
+-d '{"repo_url": "https://github.com/example/repo"}'
 
-## 📦 Packaging the Project (ZIP)
-To package your project for submission or sharing:
-```bash
-cd ..
-zip -r codebase_genius.zip codebase_genius
-```
-This produces `codebase_genius.zip` containing all files.
 
----
+This triggers the Supervisor walker, which coordinates:
 
-## 🧩 Agent Overview
+Repo Mapper
 
-| Agent | Role | Key Abilities |
-|--------|------|---------------|
-| **Code Genius (Supervisor)** | Orchestrates workflow, manages repo processing order | `run_workflow`, `coordinate_agents` |
-| **Repo Mapper** | Clones repository and builds file-tree map | `clone_repo`, `map_structure`, `summarize_readme` |
-| **Code Analyzer** | Builds Code Context Graph (CCG), links functions/classes | `parse_code`, `build_graph`, `analyze_relations` |
-| **DocGenie** | Synthesizes final markdown docs | `generate_docs`, `format_sections`, `insert_diagrams` |
+Code Analyzer
 
----
+DocGenie
 
-## 📄 Example Output
+Generated documentation will appear inside the outputs/ folder.
+Agent Breakdown
+Agent	Purpose	Key Responsibilities
+Supervisor (Code Genius)	Controls overall workflow	run_workflow(), coordinate_agents()
+Repo Mapper	Clones and scans repo	clone_repo(), map_structure()
+Code Analyzer	Builds the Code Context Graph (CCG)	parse_code(), build_graph()
+DocGenie	Produces markdown documentation	generate_docs(), format_sections()
+Example Output
 
-Example markdown file generated under `outputs/sample_repo/docs.md`:
-```markdown
-# Sample Repository Documentation
+A generated markdown file (in outputs/docs.md) looks like this:
 
-## Overview
-This project provides an API for machine learning model training.
 
-## File Structure
+This repository provides a RESTful API for machine learning model training.
+
+
 - main.py
 - models/
 - utils/
+- config/
 
-## API Reference
-### train_model()
-Trains the model on given dataset.
-
-### evaluate_model()
-Evaluates model accuracy on test data.
-```
-
----
-
-## 🧠 Tips for Enhancement
-- Integrate `tree_sitter` grammars for advanced AST parsing.
-- Add Streamlit front-end for visualization.
-- Extend support to JavaScript and TypeScript repos.
-- Generate relationship diagrams automatically via Graphviz or Mermaid.
-
----
-
-## 🧾 License
-MIT License © 2025 Codebase Genius Team
